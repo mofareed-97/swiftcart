@@ -7,6 +7,8 @@ import "./globals.css";
 import PageHeader from "@/components/Header";
 import { cn } from "@/lib/utils";
 
+import "swiper/css";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -47,7 +49,6 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <PageHeader />
           {children}
-
         </ThemeProvider>
       </body>
     </html>

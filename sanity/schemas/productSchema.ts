@@ -40,7 +40,21 @@ const productSchema = {
     },
 
     {
-      name: "image",
+      name: "type",
+      title: "Type",
+      type: "string",
+    },
+
+    {
+      name: "mainImage",
+      title: "Main Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: "images",
       title: "Image",
       type: "array",
       of: [{ type: "image" }],
@@ -55,11 +69,11 @@ const productSchema = {
       type: "number",
     },
 
-    {
-      name: "rating",
-      title: "Rating",
-      type: "number",
-    },
+    // {
+    //   name: "rating",
+    //   title: "Rating",
+    //   type: "number",
+    // },
   ],
 };
 
