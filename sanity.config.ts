@@ -4,8 +4,8 @@ import { schemaTypes } from "./sanity/schemas";
 import sanityConfig from "./sanity/config";
 
 const config = defineConfig({
-  // @ts-ignore
   ...sanityConfig,
+  title: "SwiftCart",
   basePath: "/admin",
   plugins: [deskTool()],
   schema: { types: schemaTypes },
