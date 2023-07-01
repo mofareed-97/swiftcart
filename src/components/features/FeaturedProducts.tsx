@@ -5,6 +5,7 @@ import ProductCard from "../ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css/pagination";
+import SliderCards from "../SliderCards";
 
 interface IProps {
   title: string;
@@ -16,20 +17,7 @@ function FeaturedProducts({ title, products }: IProps) {
       <h3 className="mb-4 font-heading text-2xl">{title}</h3>
 
       <div className="">
-        <Swiper
-          slidesPerView={6}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-          }}
-          // className="cursor-pointer"
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product._id}>
-              <ProductCard product={product} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <SliderCards products={products} />
       </div>
     </div>
   );

@@ -27,7 +27,14 @@ function ProductCard({ product }: { product: ProductType }) {
 
       <div className="flex flex-1 flex-col  px-4  pt-6">
         <div className="flex justify-between gap-4">
-          <p className="line-clamp-2 text-sm font-medium">{product.name}</p>
+          <button
+            className="text-start"
+            onClick={() => (window.location.href = `/products/${product.slug}`)}
+          >
+            <p className="line-clamp-2 text-sm font-medium hover:underline">
+              {product.name}
+            </p>
+          </button>
           <span className="font-bold">${product.price}</span>
         </div>
 

@@ -1,6 +1,6 @@
 import { createClient, groq } from "next-sanity";
 import sanityConfig from "./config";
-import { CategoryType, featuredTypes } from "@/types/sanityTypes";
+import { CategoryType, ProductType, featuredTypes } from "@/types/sanityTypes";
 
 const client = createClient(sanityConfig);
 export async function getCategories(): Promise<CategoryType[]> {
@@ -27,13 +27,29 @@ export async function getBanner() {
   );
 }
 
+export async function getProductDetails(slug: string): Promise<ProductType> {
+  return client.fetch(
+    groq`*[_type == "product" && slug.current == $slug][0]{
+      _id,
+      _createdAt,
+      name,
+      price,
+      description,
+      "slug": slug.current,
+      "images": images[].asset->url,
+      "mainImage": mainImage.asset->url,
+    }`,
+    { slug }
+  );
+}
+
 export async function getAllFeaturedProducts(): Promise<featuredTypes> {
   const featured = await client.fetch(
     groq`
     *[_type == "featuredProduct"]{
        
         "mostSellingProducts": mostSellingProducts[]->{
-            "id": _id,
+            _id,
             name,
             description,
             price,
@@ -42,7 +58,7 @@ export async function getAllFeaturedProducts(): Promise<featuredTypes> {
             "mainImage": mainImage.asset->url,
         },
         "bestDeals": bestDeals[]->{
-          "id": _id,
+          _id,
           name,
           description,
           price,

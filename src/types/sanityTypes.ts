@@ -30,6 +30,6 @@ export interface ProductType {
 
 export interface featuredTypes {
   mostSellingProducts: ProductType[];
-  bestDeals?: ProductType[];
-  trendingProducts?: ProductType[];
+  bestDeals: ProductType[];
+  trendingProducts: ProductType[];
 }

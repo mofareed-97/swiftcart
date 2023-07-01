@@ -3,7 +3,7 @@ import {
   getAllFeaturedProducts,
   getBanner,
   getCategories,
-} from "../../sanity/sanity-utils";
+} from "../../../sanity/sanity-utils";
 import { BannerType, CategoryType } from "@/types/sanityTypes";
 import Banner from "@/components/home/Banner";
 import Categories from "@/components/home/Categories";
@@ -27,6 +27,8 @@ export default async function Home() {
           title="Most Selling Products"
           products={featured.mostSellingProducts}
         />
+
+        <FeaturedProducts title="Best Deals" products={featured.bestDeals} />
       </div>
     </main>
   );
