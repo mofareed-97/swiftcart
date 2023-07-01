@@ -23,6 +23,7 @@ export interface ProductType {
   type: string;
   mainImage: string;
   price: string;
+  countInStock: string;
   rating?: any;
   images: string[];
   description: string;

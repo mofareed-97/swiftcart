@@ -35,6 +35,7 @@ export async function getProductDetails(slug: string): Promise<ProductType> {
       name,
       price,
       description,
+      countInStock,
       "slug": slug.current,
       "images": images[].asset->url,
       "mainImage": mainImage.asset->url,
