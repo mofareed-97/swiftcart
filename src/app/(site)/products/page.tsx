@@ -1,4 +1,4 @@
-export default async function ProductDetails() {
+export default async function Products() {
   return (
     <div className="">
       <div className="mx-auto max-w-[1500px] py-20">
