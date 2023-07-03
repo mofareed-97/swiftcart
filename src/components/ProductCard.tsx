@@ -6,6 +6,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 import { Star } from "lucide-react";
+import Link from "next/link";
 
 function ProductCard({ product }: { product: ProductType }) {
   return (
@@ -27,9 +28,16 @@ function ProductCard({ product }: { product: ProductType }) {
 
       <div className="flex flex-1 flex-col  px-4  pt-6">
         <div className="flex justify-between gap-4">
+          {/* <Link className="text-start" href={`/products/${product.slug}`}>
+            <p className="line-clamp-2 text-sm font-medium hover:underline">
+              {product.name}
+            </p>
+          </Link> */}
           <button
             className="text-start"
-            onClick={() => (window.location.href = `/products/${product.slug}`)}
+            onClick={() => {
+              window.location.href = `/products/${product.slug}`;
+            }}
           >
             <p className="line-clamp-2 text-sm font-medium hover:underline">
               {product.name}

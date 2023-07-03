@@ -4,18 +4,22 @@ import Image from "next/image";
 import { ProductType } from "@/types/sanityTypes";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import useCart from "@/hooks/useCart";
 
 interface IProps {
   product: ProductType;
 }
 function ProductDetails({ product }: IProps) {
   const [activeImage, setActiveImage] = useState(0);
-  const [counter, setCounter] = useState(0);
+  const [counter, setCounter] = useState(1);
+
+  const addToCart = useCart((state) => state.addToCart);
+
   return (
     <div className="">
       <div className="grid grid-cols-3 gap-10">
         <div className="flex h-[500px] gap-4">
-          <div className="flex w-24 flex-col justify-between ">
+          <div className="flex w-24 flex-col gap-4">
             {product.images.map((el, i) => (
               <div
                 key={el}
@@ -74,7 +78,7 @@ function ProductDetails({ product }: IProps) {
               <Button
                 variant={"link"}
                 onClick={() => {
-                  if (counter > 0) {
+                  if (counter > 1) {
                     setCounter((prevCount) => prevCount - 1);
                   }
                 }}
@@ -102,7 +106,12 @@ function ProductDetails({ product }: IProps) {
 
           <div className="my-4 flex items-center gap-2">
             <Button className="px-10">Buy Now</Button>
-            <Button variant={"outline"}>Add to Cart</Button>
+            <Button
+              onClick={() => addToCart({ ...product, qty: counter })}
+              variant={"outline"}
+            >
+              Add to Cart
+            </Button>
           </div>
 
           <div className="my-10 border">
@@ -132,7 +141,9 @@ function ProductDetails({ product }: IProps) {
 
       <div className="py-14">
         <h4 className="font-heading text-lg">Overview</h4>
-        <p className="my-6 font-medium">{product.description}</p>
+        <p className="my-6 max-w-6xl whitespace-pre-line font-medium">
+          {product.description}
+        </p>
       </div>
     </div>
   );

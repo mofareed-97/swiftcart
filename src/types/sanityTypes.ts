@@ -22,7 +22,7 @@ export interface ProductType {
   slug: string;
   type: string;
   mainImage: string;
-  price: string;
+  price: number;
   countInStock: string;
   rating?: any;
   images: string[];
