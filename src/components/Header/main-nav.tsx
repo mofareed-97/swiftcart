@@ -78,7 +78,7 @@ export function NavigationMenuDemo() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs" title="Products">
+              <ListItem href="/products" title="Products">
                 All the products we have to offer
               </ListItem>
               <ListItem href="/docs/installation" title="Installation">

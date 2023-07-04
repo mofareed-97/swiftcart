@@ -5,6 +5,7 @@ import { ProductType } from "@/types/sanityTypes";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import useCart from "@/hooks/useCart";
+import { handleCheckout } from "@/lib/checkoutHandler";
 
 interface IProps {
   product: ProductType;
@@ -105,7 +106,12 @@ function ProductDetails({ product }: IProps) {
           </div>
 
           <div className="my-4 flex items-center gap-2">
-            <Button className="px-10">Buy Now</Button>
+            <Button
+              onClick={() => handleCheckout([{ ...product, qty: counter }])}
+              className="px-10"
+            >
+              Buy Now
+            </Button>
             <Button
               onClick={() => addToCart({ ...product, qty: counter })}
               variant={"outline"}

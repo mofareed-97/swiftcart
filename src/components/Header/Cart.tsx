@@ -19,6 +19,9 @@ import useCart, { CartActions, CartState, ProductQty } from "@/hooks/useCart";
 import { Delete, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
+import getStripe from "@/lib/getStripe";
+import Stripe from "stripe";
+import { handleCheckout } from "@/lib/checkoutHandler";
 
 export function Cart() {
   const [cartItems, setCartItems] = useState<CartState & CartActions>();
@@ -27,6 +30,7 @@ export function Cart() {
   useEffect(() => {
     setCartItems(cartStore);
   }, [cartStore]);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -78,6 +82,11 @@ export function Cart() {
           </DropdownMenuGroup>
         </ScrollArea>
         <Button
+          onClick={() => {
+            if (cartItems && cartItems?.cart.length > 0) {
+              handleCheckout(cartItems.cart);
+            }
+          }}
           disabled={cartItems && cartItems.cart.length < 1}
           className="absolute bottom-0 left-0 w-full  py-2 text-xs"
         >
