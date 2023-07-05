@@ -7,8 +7,10 @@ import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 import { Star } from "lucide-react";
 import Link from "next/link";
+import useCart from "@/hooks/useCart";
 
 function ProductCard({ product }: { product: ProductType }) {
+  const addToCart = useCart((state) => state.addToCart);
   return (
     <div className="flex flex-col border bg-background shadow-sm">
       <div className="bg_product relative h-80 w-full border-b">
@@ -64,7 +66,11 @@ function ProductCard({ product }: { product: ProductType }) {
               <Star className="h-4 w-4 hover:fill-green-500" />
             </button>
           </div>
-          <Button className="rounded-full text-sm" variant={"default"}>
+          <Button
+            onClick={() => addToCart({ ...product, qty: 1 })}
+            className="rounded-full text-sm"
+            variant={"default"}
+          >
             Add to Cart
           </Button>
         </div>

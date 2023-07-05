@@ -56,6 +56,7 @@ export async function getAllFeaturedProducts(): Promise<featuredTypes> {
             price,
             "slug": slug.current,
             rating,
+            "images": images[].asset->url,
             "mainImage": mainImage.asset->url,
         },
         "bestDeals": bestDeals[]->{
@@ -65,6 +66,7 @@ export async function getAllFeaturedProducts(): Promise<featuredTypes> {
           price,
           "slug": slug.current,
           rating,
+          "images": images[].asset->url,
           "mainImage": mainImage.asset->url,
         }
     }
