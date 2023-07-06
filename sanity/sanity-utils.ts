@@ -2,7 +2,7 @@ import { createClient, groq } from "next-sanity";
 import sanityConfig from "./config";
 import { CategoryType, ProductType, featuredTypes } from "@/types/sanityTypes";
 
-const client = createClient(sanityConfig);
+export const client = createClient(sanityConfig);
 export async function getCategories(): Promise<CategoryType[]> {
   return client.fetch(
     groq`*[_type == "category"]{
@@ -27,6 +27,21 @@ export async function getBanner() {
   );
 }
 
+export async function getAllProducts(): Promise<ProductType[]> {
+  return client.fetch(
+    groq`*[_type == "product"]{
+      _id,
+      _createdAt,
+      name,
+      price,
+      description,
+      countInStock,
+      "slug": slug.current,
+      "images": images[].asset->url,
+      "mainImage": mainImage.asset->url,
+    }`
+  );
+}
 export async function getProductDetails(slug: string): Promise<ProductType> {
   return client.fetch(
     groq`*[_type == "product" && slug.current == $slug][0]{

@@ -1,8 +1,24 @@
+import Filters from "@/components/products/Filters";
+import { getAllProducts } from "../../../../sanity/sanity-utils";
+import ProductCard from "@/components/ProductCard";
+
 export default async function Products() {
+  const products = await getAllProducts();
+
   return (
     <div className="">
-      <div className="mx-auto max-w-[1500px] py-20">
-        <h1 className="font-heading text-5xl">Products</h1>
+      <div className="mx-auto  max-w-[1500px] py-20">
+        <div className="flex min-h-screen gap-10">
+          <Filters />
+          {/* Products */}
+          <div className="flex-1  ">
+            <div className="grid grid-cols-4 gap-4">
+              {products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
