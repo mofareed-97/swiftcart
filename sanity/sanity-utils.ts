@@ -1,6 +1,7 @@
 import { createClient, groq } from "next-sanity";
 import sanityConfig from "./config";
 import { CategoryType, ProductType, featuredTypes } from "@/types/sanityTypes";
+import { ProductsParamsType } from "@/lib/productsValidation";
 
 export const client = createClient(sanityConfig);
 export async function getCategories(): Promise<CategoryType[]> {
@@ -27,7 +28,9 @@ export async function getBanner() {
   );
 }
 
-export async function getAllProducts(): Promise<ProductType[]> {
+export async function getAllProducts(
+  searchParams: ProductsParamsType
+): Promise<ProductType[]> {
   return client.fetch(
     groq`*[_type == "product"]{
       _id,
