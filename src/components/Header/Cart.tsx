@@ -13,9 +13,7 @@ import useCart, { CartActions, CartState, ProductQty } from "@/hooks/useCart";
 import { Delete, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
-import getStripe from "@/lib/getStripe";
 import Stripe from "stripe";
-import { handleCheckout } from "@/lib/checkoutHandler";
 
 export function Cart() {
   const [cartItems, setCartItems] = useState<CartState & CartActions>();
@@ -78,7 +76,8 @@ export function Cart() {
         <Button
           onClick={() => {
             if (cartItems && cartItems?.cart.length > 0) {
-              handleCheckout(cartItems.cart);
+              // handleCheckout(cartItems.cart);
+              console.log("Not available");
             }
           }}
           disabled={cartItems && cartItems.cart.length < 1}

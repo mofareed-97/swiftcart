@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import useCart from "@/hooks/useCart";
-import { handleCheckout } from "@/lib/checkoutHandler";
 import { ProductType } from "@/types";
 import {
   Accordion,
