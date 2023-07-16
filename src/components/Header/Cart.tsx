@@ -5,14 +5,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useCart, { CartActions, CartState, ProductQty } from "@/hooks/useCart";
@@ -48,12 +42,12 @@ export function Cart() {
           <DropdownMenuGroup className="px-3">
             {cartItems?.cart.map((product) => {
               return (
-                <div key={product._id} className="" suppressHydrationWarning>
+                <div key={product.id} className="" suppressHydrationWarning>
                   <div className="flex justify-between py-2 ">
                     <div className="flex gap-1">
                       <div className="bg_product relative h-14 w-14">
                         <Image
-                          src={product.mainImage}
+                          src={product.mainImage || product.images[0].url}
                           alt=""
                           fill
                           sizes="25vw"

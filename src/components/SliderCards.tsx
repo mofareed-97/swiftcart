@@ -4,8 +4,8 @@ import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css/pagination";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
-import { ProductType } from "@/types/sanityTypes";
 import ProductCard from "./ProductCard";
+import { ProductType } from "@/types";
 
 function SliderCards({ products }: { products: ProductType[] }) {
   return (
@@ -18,7 +18,7 @@ function SliderCards({ products }: { products: ProductType[] }) {
     >
       <SlideArrowsButton />
       {products.map((product) => (
-        <SwiperSlide key={product._id}>
+        <SwiperSlide key={product.id}>
           <ProductCard product={product} />
         </SwiperSlide>
       ))}

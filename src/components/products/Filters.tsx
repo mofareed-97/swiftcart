@@ -5,32 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Slider } from "../ui/slider";
 import { Checkbox } from "../ui/checkbox";
-import { client } from "../../../sanity/sanity-utils";
 import useSWR from "swr";
-import { groq } from "next-sanity";
-import { CategoryType } from "@/types/sanityTypes";
 import { Skeleton } from "../ui/skeleton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Input } from "../ui/input";
 import { useDebounce } from "@/hooks/useDebounce";
+import { getCategories } from "@/app/_actions/products";
+import { CategoryType } from "@/types";
 
-function Filters() {
-  const { data, isLoading, error } = useSWR<CategoryType[]>(
-    groq`*[_type == "category"]{
-      _id,
-      _createdAt,
-      name,
-      "slug":slug.current,
-      "image": image.asset->url,
-  }`,
-    (query) => client.fetch(query)
-  );
+function Filters({ categories }: { categories: CategoryType[] }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  const categories_ids = searchParams?.get("categories_ids");
+  const categoriesParams = searchParams?.get("categories");
+  const pageParams = searchParams?.get("categories") || "1";
 
   const createQueryString = useCallback(
     (params: Record<string, string | number | null>) => {
@@ -65,16 +55,14 @@ function Filters() {
   }, [debouncedPrice]);
 
   const [categoriesIds, setCategoriesIds] = useState<string[] | null>(
-    categories_ids?.split(".").map(String) ?? null
+    categoriesParams?.split(".").map(String) ?? null
   );
 
   useEffect(() => {
     startTransition(() => {
       router.push(
         `${pathname}?${createQueryString({
-          categories_ids: categoriesIds?.length
-            ? categoriesIds.join(".")
-            : null,
+          categories: categoriesIds?.length ? categoriesIds.join(".") : null,
         })}`
       );
     });
@@ -138,9 +126,9 @@ function Filters() {
           <p className="font-bold">Catrgory</p>
         </div>
         <div className="flex flex-col gap-4">
-          {data && data.length > 0
-            ? data.map((item) => (
-                <div key={item._id} className="flex items-center space-x-2">
+          {categories && categories.length > 0
+            ? categories.map((item) => (
+                <div key={item.id} className="flex items-center space-x-2">
                   <Checkbox
                     checked={categoriesIds?.includes(item.slug)}
                     id={item.slug}
@@ -161,15 +149,6 @@ function Filters() {
                   >
                     {item.name}
                   </label>
-                </div>
-              ))
-            : null}
-
-          {isLoading
-            ? Array.from({ length: 5 }, (__, i) => (
-                <div key={i} className="flex items-center space-x-2">
-                  <Skeleton className="h-5 w-5 " />
-                  <Skeleton className="h-5 w-20 " />
                 </div>
               ))
             : null}

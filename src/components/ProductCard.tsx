@@ -1,6 +1,5 @@
 "use client";
 
-import { ProductType } from "@/types/sanityTypes";
 import Image from "next/image";
 import React from "react";
 import { Button } from "./ui/button";
@@ -8,6 +7,7 @@ import { Heart } from "lucide-react";
 import { Star } from "lucide-react";
 import Link from "next/link";
 import useCart from "@/hooks/useCart";
+import { ProductType } from "@/types";
 
 function ProductCard({ product }: { product: ProductType }) {
   const addToCart = useCart((state) => state.addToCart);
@@ -20,7 +20,7 @@ function ProductCard({ product }: { product: ProductType }) {
           </Button>
         </div>
         <Image
-          src={product.mainImage}
+          src={product.mainImage || product.images[0].url}
           alt={`${product.name} image`}
           className=" object-cover"
           fill

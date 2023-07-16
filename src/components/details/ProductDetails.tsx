@@ -1,11 +1,17 @@
 "use client";
 import { Box, Minus, Plus, Star, Truck } from "lucide-react";
 import Image from "next/image";
-import { ProductType } from "@/types/sanityTypes";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import useCart from "@/hooks/useCart";
 import { handleCheckout } from "@/lib/checkoutHandler";
+import { ProductType } from "@/types";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
 
 interface IProps {
   product: ProductType;
@@ -23,12 +29,12 @@ function ProductDetails({ product }: IProps) {
           <div className="flex w-24 flex-col gap-4">
             {product.images.map((el, i) => (
               <div
-                key={el}
+                key={el.id}
                 className="bg_product relative h-28 cursor-pointer"
                 onClick={() => setActiveImage(i)}
               >
                 <Image
-                  src={el}
+                  src={el.url}
                   alt={`${product.name + " " + i} image`}
                   className={`border object-cover ${
                     activeImage == i ? "border-blue-500" : ""
@@ -42,7 +48,7 @@ function ProductDetails({ product }: IProps) {
           {/* <div className="bg_product relative mb-10 h-full w-full"> */}
           <div className="bg_product relative mb-10 h-[500px] w-[350px] ">
             <Image
-              src={product.images[activeImage]}
+              src={product.images[activeImage].url}
               className="object-cover"
               fill
               alt="product"
@@ -70,6 +76,7 @@ function ProductDetails({ product }: IProps) {
               <Star className="h-4 w-4 hover:fill-green-500" />
             </button>
           </div>
+
           <div className="border-b border-t py-4">
             <h2 className="text-3xl font-medium">${product.price}</h2>
           </div>
@@ -107,7 +114,7 @@ function ProductDetails({ product }: IProps) {
 
           <div className="my-4 flex items-center gap-2">
             <Button
-              onClick={() => handleCheckout([{ ...product, qty: counter }])}
+              // onClick={() => handleCheckout([{ ...product, qty: counter }])}
               className="px-10"
             >
               Buy Now
@@ -119,8 +126,26 @@ function ProductDetails({ product }: IProps) {
               Add to Cart
             </Button>
           </div>
+          {/* <div className=" py-4">
+            <h4 className="mb-4 font-heading text-lg">Overview</h4>
+            <p className="max-w-3xl whitespace-pre-line text-sm font-medium text-muted-foreground">
+              {product.description}
+            </p>
+          </div> */}
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-lg font-medium">
+                Overview
+              </AccordionTrigger>
+              <AccordionContent className="max-w-3xl whitespace-pre-line text-sm font-medium text-muted-foreground">
+                {product.description}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
 
-          <div className="my-10 border">
+        <div className="border-l px-4">
+          <div className=" border">
             <div className="flex gap-3 border-b p-5">
               <Truck className="h-6 w-6 text-yellow-500" />
               <div className="">
@@ -141,16 +166,9 @@ function ProductDetails({ product }: IProps) {
             </div>
           </div>
         </div>
-
-        <div className="border-l"></div>
       </div>
 
-      <div className="py-14">
-        <h4 className="font-heading text-lg">Overview</h4>
-        <p className="my-6 max-w-6xl whitespace-pre-line font-medium">
-          {product.description}
-        </p>
-      </div>
+      <div className="py-14"></div>
     </div>
   );
 }

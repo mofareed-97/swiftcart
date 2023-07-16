@@ -1,54 +1,71 @@
 import { db } from "@/lib/db";
-import { productSchema } from "@/lib/validation/product";
-import { StoredFile } from "@/types";
+import {
+  GetProductsValidatorSchema,
+  productSchema,
+} from "@/lib/validation/product";
+import {
+  CategoryType,
+  ProductType,
+  ProductsFetchType,
+  StoredFile,
+} from "@/types";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { env } from "@/env.mjs";
 
-// export async function addProductAction(
-//     input: z.infer<typeof productSchema> & {
-//       storeId: number
-//       images: StoredFile[] | null
-//     }
-//   ) {
-//     const productWithSameName = await db.query.products.findFirst({
-//       where: eq(products.name, input.name),
-//     })
+export async function getAllProducts(
+  input: GetProductsValidatorSchema
+): Promise<ProductsFetchType> {
+  const res = await fetch(`${env.NEXT_PUBLIC_SERVER_URL}/api/product?page=${
+    input.page || "1"
+  }${input.categories ? `&categories=${input.categories}` : ""}
+  `);
 
-//     if (productWithSameName) {
-//       throw new Error("Product name already taken.")
-//     }
-
-//     await db.insert(products).values({
-//       ...input,
-//       storeId: input.storeId,
-//       images: input.images,
-//     })
-
-//     // revalidatePath(`/dashboard/stores/${input.storeId}/products.`)
-//   }
-export async function addProductAction(
-  input: z.infer<typeof productSchema> & {
-    images: StoredFile[];
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
   }
-) {
-  // const productWithSameName = await db.product.findFirst({
-  //   where: {
-  //     name: input.name,
-  //   },
-  // });
-  // if (productWithSameName) {
-  //   throw new Error("Product name already taken.");
-  // }
-  //   const newProduct = await db.product.create({
-  //     data: {
-  //       ...input,
-  //       images: {
-  //         createMany: {
-  //           data: input.images,
-  //         },
-  //       },
-  //     },
-  //   });
-  //   return newProduct;
-  // revalidatePath(`/dashboard/stores/${input.storeId}/products.`)
+
+  const data = await res.json();
+
+  return data;
+}
+
+export async function getFeaturedProducts(): Promise<ProductsFetchType> {
+  const res = await fetch("https://swiftcart-admin.vercel.app/api/product");
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  const data = await res.json();
+
+  return data;
+}
+
+export async function getSingleProduct(id: string): Promise<ProductType> {
+  const res = await fetch(
+    // `https://swiftcart-admin.vercel.app/api/product/${id}`
+    `${env.NEXT_PUBLIC_SERVER_URL}/api/product/${id}`
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  const data = await res.json();
+
+  return data;
+}
+
+export async function getCategories(): Promise<CategoryType[]> {
+  // const res = await fetch("https://swiftcart-admin.vercel.app/api/category");
+  const res = await fetch(`${env.NEXT_PUBLIC_SERVER_URL}/api/category`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  const data = await res.json();
+
+  return data;
 }

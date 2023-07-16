@@ -1,11 +1,11 @@
 "use client";
-import { ProductType } from "@/types/sanityTypes";
 import React from "react";
 import ProductCard from "../ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css/pagination";
 import SliderCards from "../SliderCards";
+import { ProductType } from "@/types";
 
 interface IProps {
   title: string;

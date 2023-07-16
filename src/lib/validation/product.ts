@@ -20,3 +20,10 @@ export const productSchema = z.object({
 
   countInStock: z.number().or(z.string()).optional().default(1),
 });
+
+export const GetProductsValidator = z.object({
+  page: z.string().optional().default("1"),
+  categories: z.string().optional(),
+});
+
+export type GetProductsValidatorSchema = z.infer<typeof GetProductsValidator>;

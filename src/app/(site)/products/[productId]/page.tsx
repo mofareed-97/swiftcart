@@ -1,4 +1,4 @@
-import { getProductDetails } from "@/../sanity/sanity-utils";
+import { getSingleProduct } from "@/app/_actions/products";
 import ProductDetails from "@/components/details/ProductDetails";
 
 interface IProps {
@@ -6,8 +6,10 @@ interface IProps {
     productId: string;
   };
 }
+export const fetchCache = "force-no-store";
+
 export default async function ProductDetailsPage({ params }: IProps) {
-  const product = await getProductDetails(params.productId);
+  const product = await getSingleProduct(params.productId);
 
   return (
     <div className="">

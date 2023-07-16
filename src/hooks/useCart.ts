@@ -1,4 +1,4 @@
-import { ProductType } from "@/types/sanityTypes";
+import { ProductType } from "@/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -30,11 +30,11 @@ const useCart = create(
       totalPrice: INITIAL_STATE.totalPrice,
       addToCart(product) {
         const cart = get().cart;
-        const cartItem = cart.find((item) => item._id === product._id);
+        const cartItem = cart.find((item) => item.id === product.id);
 
         if (cartItem) {
           const updatedCart = cart.map((item) =>
-            item._id === product._id
+            item.id === product.id
               ? { ...item, qty: (item.qty as number) + product.qty }
               : item
           );
@@ -57,9 +57,9 @@ const useCart = create(
       removeFromCart(product) {
         const cart = get().cart;
 
-        const selectedProduct = cart.find((item) => item._id === product._id);
+        const selectedProduct = cart.find((item) => item.id === product.id);
 
-        const updateCart = cart.filter((item) => item._id !== product._id);
+        const updateCart = cart.filter((item) => item.id !== product.id);
         set((state) => ({
           cart: updateCart,
           totalItems: state.totalItems - selectedProduct!.qty,
