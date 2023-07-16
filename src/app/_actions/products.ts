@@ -1,8 +1,4 @@
-import { db } from "@/lib/db";
-import {
-  GetProductsValidatorSchema,
-  productSchema,
-} from "@/lib/validation/product";
+import { GetProductsValidatorSchema } from "@/lib/validation/product";
 import {
   CategoryType,
   ProductType,
