@@ -26,8 +26,20 @@ export async function getAllProducts(
   return data;
 }
 
-export async function getFeaturedProducts(): Promise<ProductsFetchType> {
-  const res = await fetch("https://swiftcart-admin.vercel.app/api/product");
+export async function getFeaturedProducts(): Promise<ProductType[]> {
+  const res = await fetch(`${env.NEXT_PUBLIC_SERVER_URL}/api/product/features`);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  const data = await res.json();
+
+  return data;
+}
+
+export async function getBestDealsProducts(): Promise<ProductType[]> {
+  const res = await fetch(`${env.NEXT_PUBLIC_SERVER_URL}/api/product/deals`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch products");

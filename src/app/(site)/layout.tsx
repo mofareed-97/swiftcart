@@ -6,7 +6,7 @@ import { Metadata } from "next";
 import "../globals.css";
 import PageHeader from "@/components/Header";
 import { cn } from "@/lib/utils";
-
+import NextTopLoader from "nextjs-toploader";
 import "swiper/css";
 
 const fontSans = FontSans({
@@ -46,6 +46,8 @@ export default function RootLayout({
           fontHeading.variable
         )}
       >
+        <NextTopLoader />
+
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <PageHeader />
           {children}
