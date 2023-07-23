@@ -14,7 +14,7 @@ interface IProps {
 function FeaturedProducts({ title, products }: IProps) {
   return (
     <div className="py-10">
-      <h3 className="mb-4 font-heading text-2xl">{title}</h3>
+      <h3 className="mb-4 text-2xl font-bold">{title}</h3>
 
       <div className="">
         <SliderCards products={products} />

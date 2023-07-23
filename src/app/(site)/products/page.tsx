@@ -4,6 +4,8 @@ import { z } from "zod";
 import { ProductsParamsType } from "@/lib/productsValidation";
 import { getAllProducts, getCategories } from "@/app/_actions/products";
 import { GetProductsValidatorSchema } from "@/lib/validation/product";
+import Banner from "@/components/home/Banner";
+import bannerImage from "@/assets/images/products-banner-1.png";
 
 interface CategoryPageProps {
   params: any;
@@ -31,9 +33,13 @@ export default async function Products({
 
   return (
     <div className="">
-      <div className="mx-auto  max-w-[1500px] py-20">
-        <div className="mb-20">{/* <AddProduct /> */}</div>
-        <div className="flex min-h-screen gap-10">
+      <div className="mx-auto  max-w-[1500px] pb-20">
+        <Banner
+          description={"Grab Upto 50% Off On Selected Headphone"}
+          image={bannerImage}
+        />
+
+        <div className="mt-10 flex min-h-screen gap-10">
           <Filters categories={categories} />
           {/* Products */}
           <div className="flex-1  ">

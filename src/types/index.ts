@@ -7,7 +7,8 @@ export interface ProductType {
   id: string;
   slug: string;
   name: string;
-  price: number;
+  price?: string;
+  priceInt: number;
   rating: number;
   createdAt: Date;
   updatedAt: Date;

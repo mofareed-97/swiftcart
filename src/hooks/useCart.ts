@@ -42,7 +42,7 @@ const useCart = create(
           set((state) => ({
             cart: updatedCart,
             totalItems: state.totalItems + product.qty,
-            totalPrice: state.totalPrice + product.price * product.qty,
+            totalPrice: state.totalPrice + product.priceInt * product.qty,
           }));
         } else {
           const updateCart = [...cart, product];
@@ -50,7 +50,7 @@ const useCart = create(
           set((state) => ({
             cart: updateCart,
             totalItems: state.totalItems + product.qty,
-            totalPrice: state.totalPrice + product.price * product.qty,
+            totalPrice: state.totalPrice + product.priceInt * product.qty,
           }));
         }
       },
@@ -63,48 +63,15 @@ const useCart = create(
         set((state) => ({
           cart: updateCart,
           totalItems: state.totalItems - selectedProduct!.qty,
-          totalPrice: state.totalPrice - selectedProduct!.qty * product.price,
+          totalPrice:
+            state.totalPrice - selectedProduct!.qty * product.priceInt,
         }));
       },
     }),
     {
       name: "cart-storage", // unic name
-      // getStorage: () => sessionStorage, (optional) by default the 'localStorage' is used
     }
   )
 );
-
-// const useCart = create<State & CartActions>((set, get) => ({
-//   cart: INITIAL_STATE.cart,
-//   totalItems: INITIAL_STATE.totalItems,
-//   totalPrice: INITIAL_STATE.totalPrice,
-//   addToCart(product) {
-//     const cart = get().cart;
-//     const cartItem = cart.find((item) => item._id === product._id);
-
-//     if (cartItem) {
-//       const updatedCart = cart.map((item) =>
-//         item._id === product._id
-//           ? { ...item, qty: (item.qty as number) + 1 }
-//           : item
-//       );
-
-//       set((state) => ({
-//         cart: updatedCart,
-//         totalItems: state.totalItems + 1,
-//         totalPrice: state.totalPrice + product.price,
-//       }));
-//     } else {
-//       const updateCart = [...cart, { ...product, qty: 1 }];
-
-//       set((state) => ({
-//         cart: updateCart,
-//         totalItems: state.totalItems + 1,
-//         totalPrice: state.totalPrice + product.price,
-//       }));
-//     }
-//   },
-//   removeFromCart(item) {},
-// }));
 
 export default useCart;

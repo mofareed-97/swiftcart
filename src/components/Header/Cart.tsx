@@ -14,15 +14,52 @@ import { Delete, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "../ui/scroll-area";
 import Stripe from "stripe";
+import { env } from "@/env.mjs";
+import { toast } from "react-hot-toast";
+import { Icons } from "../icons";
 
 export function Cart() {
   const [cartItems, setCartItems] = useState<CartState & CartActions>();
+  const [isLoading, setIsLoading] = useState(false);
   const cartStore = useCart();
 
   useEffect(() => {
     setCartItems(cartStore);
   }, [cartStore]);
 
+  const checkoutHandler = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${env.NEXT_PUBLIC_SERVER_URL}/api/checkout`,
+        {
+          method: "POST",
+          body: JSON.stringify(
+            cartItems?.cart.map((product) => ({
+              id: product.id,
+              qty: product.qty,
+            }))
+          ),
+        }
+      );
+
+      // console.log(response);
+
+      const data = await response.json();
+
+      if (!data.url) {
+        setIsLoading(false);
+        toast.error("Something went wrong");
+        throw new Error("Something went wrong");
+      }
+
+      window.location = data.url;
+    } catch (error: any) {
+      setIsLoading(false);
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -56,7 +93,7 @@ export function Cart() {
                         <p className="mb-1 line-clamp-2 max-w-[100px] font-bold">
                           {product.name}
                         </p>
-                        <span className="">${product.price}</span>
+                        <span className="">${product.priceInt}</span>
                       </div>
                     </div>
 
@@ -76,13 +113,15 @@ export function Cart() {
         <Button
           onClick={() => {
             if (cartItems && cartItems?.cart.length > 0) {
-              // handleCheckout(cartItems.cart);
-              console.log("Not available");
+              checkoutHandler();
             }
           }}
-          disabled={cartItems && cartItems.cart.length < 1}
+          disabled={(cartItems && cartItems.cart.length < 1) || isLoading}
           className="absolute bottom-0 left-0 w-full  py-2 text-xs"
         >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-3 w-3 animate-spin" />
+          ) : null}{" "}
           Checkout ( ${cartItems?.totalPrice} )
         </Button>
       </DropdownMenuContent>

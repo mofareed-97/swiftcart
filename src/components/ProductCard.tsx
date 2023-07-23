@@ -45,7 +45,7 @@ function ProductCard({ product }: { product: ProductType }) {
               {product.name}
             </p>
           </button>
-          <span className="font-bold">${product.price}</span>
+          <span className="font-bold">${product.priceInt}</span>
         </div>
 
         <div className="flex h-full flex-col items-start justify-end py-4">

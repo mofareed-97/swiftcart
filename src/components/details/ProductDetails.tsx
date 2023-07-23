@@ -11,6 +11,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
+import { toast } from "react-hot-toast";
+import { env } from "@/env.mjs";
+import { Icons } from "../icons";
 
 interface IProps {
   product: ProductType;
@@ -18,8 +21,37 @@ interface IProps {
 function ProductDetails({ product }: IProps) {
   const [activeImage, setActiveImage] = useState(0);
   const [counter, setCounter] = useState(1);
-
+  const [isLoading, setIsLoading] = useState(false);
   const addToCart = useCart((state) => state.addToCart);
+
+  const checkoutHandler = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${env.NEXT_PUBLIC_SERVER_URL}/api/checkout`,
+        {
+          method: "POST",
+          body: JSON.stringify([{ ...product, qty: counter }]),
+        }
+      );
+
+      // console.log(response);
+
+      const data = await response.json();
+
+      if (!data.url) {
+        setIsLoading(false);
+        toast.error("Something went wrong");
+        throw new Error("Something went wrong");
+      }
+
+      window.location = data.url;
+    } catch (error: any) {
+      setIsLoading(false);
+      console.log(error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <div className="">
@@ -77,7 +109,7 @@ function ProductDetails({ product }: IProps) {
           </div>
 
           <div className="border-b border-t py-4">
-            <h2 className="text-3xl font-medium">${product.price}</h2>
+            <h2 className="text-3xl font-medium">${product.priceInt}</h2>
           </div>
 
           <div className="flex gap-6 py-4">
@@ -114,13 +146,19 @@ function ProductDetails({ product }: IProps) {
           <div className="my-4 flex items-center gap-2">
             <Button
               // onClick={() => handleCheckout([{ ...product, qty: counter }])}
+              onClick={checkoutHandler}
               className="px-10"
+              disabled={isLoading}
             >
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-3 w-3 animate-spin" />
+              ) : null}
               Buy Now
             </Button>
             <Button
               onClick={() => addToCart({ ...product, qty: counter })}
               variant={"outline"}
+              disabled={isLoading}
             >
               Add to Cart
             </Button>
